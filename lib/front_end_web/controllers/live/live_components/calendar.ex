@@ -1,5 +1,6 @@
 defmodule FrontEndWeb.CalendarComponent do
   use Phoenix.LiveComponent
+  alias FrontEnd.Errands
 
   def update(assigns, socket) do
     {:ok,
@@ -17,7 +18,7 @@ defmodule FrontEndWeb.CalendarComponent do
   @months ~w"January February March April May June July August September October November December"
   def render(assigns) do
     ~H"""
-    <div class="size-fit p-18 rounded-xl shadow-lg text-2xl font-inter dark:bg-coal">
+    <div class="w-fit p-18 rounded-xl shadow-lg text-2xl dark:bg-coal">
       <div class="flex justify-between mb-14 text-primary dark:text-white">
         <.month_year month={@current_month} year={@initial_date.year} />
         <.arrows myself={@myself} />
@@ -70,7 +71,7 @@ defmodule FrontEndWeb.CalendarComponent do
   def arrows(assigns) do
     ~H"""
     <span class="flex space-x-6">
-      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected-dark/50">
+      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected/50 dark:hover:shadow-selected-dark/50">
         <Heroicons.icon
           name="chevron-left"
           type="outline"
@@ -79,7 +80,7 @@ defmodule FrontEndWeb.CalendarComponent do
           phx-target={@myself}
         />
       </span>
-      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected-dark/50">
+      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected/50 dark:hover:shadow-selected-dark/50">
         <Heroicons.icon
           name="chevron-right"
           type="outline"
@@ -113,7 +114,7 @@ defmodule FrontEndWeb.CalendarComponent do
        calendar: make_calendar(new_date),
        weeks: weeks_in_month(new_date),
        current_month: parse_month(new_date.month),
-       errands: [],
+       errands: Errands.get_errands(new_date),
        selected: "1"
      )}
   end
@@ -128,7 +129,7 @@ defmodule FrontEndWeb.CalendarComponent do
        calendar: make_calendar(new_date),
        weeks: weeks_in_month(new_date),
        current_month: parse_month(new_date.month),
-       errands: [],
+       errands: Errands.get_errands(new_date),
        selected: "1"
      )}
   end
