@@ -1,19 +1,23 @@
-<form id="customForm" class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]">
+<form id="customForm" class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]" phx-change="change"
+    phx-submit="submit">
     <div class="flex justify-between bg-white mb-16 border-b pb-4">
         <span class="shrink-0 size-8 rounded-full bg-left bg-gradient-to-l from-gray-200
             to-blue-500 bg-[size:300%] text-white font-bold content-center text-center">1</span>
         <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
             to-blue-500 bg-[size:300%]"<>(@current_stage > 1 && " animate-bg-shift" || "")}></span>
-        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
-        to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 1 && " animate-bg-shift text-gray-200 font-bold" || "")}>2</span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200 to-blue-500 bg-[size:300%]
+            content-center text-center"<>(@current_stage > 1 && " animate-bg-shift text-gray-200 font-bold" ||
+            "")}>2</span>
         <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
             to-blue-500 bg-[size:300%]"<>(@current_stage > 2 && " animate-bg-shift" || "")}></span>
-        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
-            to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 2 && " animate-bg-shift text-gray-200 font-bold" || "")}>3</span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200 to-blue-500 bg-[size:300%]
+            content-center text-center"<>(@current_stage > 2 && " animate-bg-shift text-gray-200 font-bold" ||
+            "")}>3</span>
         <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
             to-blue-500 bg-[size:300%]"<>(@current_stage > 3 && " animate-bg-shift" || "")}></span>
-        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
-            to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 3 && " animate-bg-shift text-gray-200 font-bold" || "")}>4</span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200 to-blue-500 bg-[size:300%]
+            content-center text-center"<>(@current_stage > 3 && " animate-bg-shift text-gray-200 font-bold" ||
+            "")}>4</span>
     </div>
     <div class={@current_stage==1 && "block" || "hidden" }>
         <h2 class="pb-2 text-2xl font-bold">
@@ -27,41 +31,57 @@
                 <label for="name">Name</label>
                 <span
                     class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
-                    <input class="w-full bg-transparent outline-none" placeholder="John Doe" />
+                    <input name="name" value={@form_data["name"]} class="w-full bg-transparent outline-none"
+                        placeholder="John Doe" />
                     <svg class="size-6">
                         <use href="/images/form_assets.svg#user-icon"></use>
                     </svg>
                 </span>
+                <p class="text-red-500 text-sm">
+                    <%= @errors[:name] %>
+                </p>
             </div>
             <div class="form-group space-y-4">
                 <label for="email">Email</label>
                 <span
                     class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
-                    <input class="w-full bg-transparent outline-none" placeholder="Email address" />
+                    <input name="email" value={@form_data["email"]} class="w-full bg-transparent outline-none"
+                        placeholder="Email address" />
                     <svg class="size-6">
                         <use href="/images/form_assets.svg#email-icon"></use>
                     </svg>
                 </span>
+                <p class="text-red-500 text-sm">
+                    <%= @errors[:email] %>
+                </p>
             </div>
             <div class="form-group space-y-4">
                 <label for="phone">Phone Number</label>
                 <span
                     class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
-                    <input class="w-full bg-transparent outline-none" placeholder="(123) 456 - 7890" />
+                    <input name="phone" value={@form_data["phone"]} class="w-full bg-transparent outline-none"
+                        placeholder="(123) 456 - 7890" />
                     <svg class="size-6">
                         <use href="/images/form_assets.svg#phone-icon"></use>
                     </svg>
                 </span>
+                <p class="text-red-500 text-sm">
+                    <%= @errors[:phone] %>
+                </p>
             </div>
             <div class="form-group space-y-4">
                 <label for="company">Company</label>
                 <span
                     class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
-                    <input class="w-full bg-transparent outline-none" placeholder="Company name" />
+                    <input name="company" value={@form_data["company"]} class="w-full bg-transparent outline-none"
+                        placeholder="Company name" />
                     <svg class="size-6">
                         <use href="/images/form_assets.svg#company-icon"></use>
                     </svg>
                 </span>
+                <p class="text-red-500 text-sm">
+                    <%= @errors[:company] %>
+                </p>
             </div>
         </div>
     </div>
@@ -74,9 +94,10 @@
         </p>
         <div class="grid grid-cols-2 gap-x-7 gap-y-5">
             <div class="form-group">
-                <input type="checkbox" id="checkDev" class="peer hidden" />
+                <input type="checkbox" id="checkDev" name="services-dev" checked={@form_data["services-dev"] !=nil}
+                    class="peer hidden" />
                 <label for="checkDev"
-                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
                     <div
                         class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
                         <span
@@ -92,9 +113,10 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="checkbox" id="checkWebDev" class="peer hidden" />
+                <input type="checkbox" id="checkWebDev" name="services-web" checked={@form_data["services-web"] !=nil}
+                    class="peer hidden" />
                 <label for="checkWebDev"
-                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
                     <div
                         class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
                         <span
@@ -110,9 +132,10 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="checkbox" id="checkMarketing" class="peer hidden" />
+                <input type="checkbox" id="checkMarketing" name="services-marketing"
+                    checked={@form_data["services-marketing"] !=nil} class="peer hidden" />
                 <label for="checkMarketing"
-                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
                     <div
                         class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
                         <span
@@ -128,9 +151,10 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="checkbox" id="checkOther" class="peer hidden" />
+                <input type="checkbox" id="checkOther" name="services-other" checked={@form_data["services-other"]
+                    !=nil} class="peer hidden" />
                 <label for="checkOther"
-                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
                     <div
                         class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
                         <span
@@ -154,62 +178,60 @@
         <p class="pb-10 text-gray-700">
             Please select the project budget range you have in mind.
         </p>
-        <div class="grid grid-cols-2 gap-x-7 gap-y-5">
-            <fieldset class="grid grid-cols-subgrid col-span-2 gap-x-7 gap-y-5">
-                <div class="form-group relative">
-                    <input type="radio" id="radio5k" class="peer size-6 absolute top-10 left-5" name="budget" />
-                    <label for="radio5k"
-                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
-                        <div
-                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
-                            <span class="collapse size-16" />
-                            <span class="font-medium text-gray-900">
-                                $5.000 - $10.000
-                            </span>
-                        </div>
-                    </label>
-                </div>
-                <div class="form-group relative">
-                    <input type="radio" id="radio10k" class="peer size-6 absolute top-10 left-5" name="budget" />
-                    <label for="radio10k"
-                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
-                        <div
-                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
-                            <span class="collapse size-16" />
-                            <span class="font-medium text-gray-900">
-                                $10.000 - $20.000
-                            </span>
-                        </div>
-                    </label>
-                </div>
-                <div class="form-group relative">
-                    <input type="radio" id="radio20k" class="peer size-6 absolute top-10 left-5" name="budget" />
-                    <label for="radio20k"
-                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
-                        <div
-                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
-                            <span class="collapse size-16" />
-                            <span class="font-medium text-gray-900">
-                                $20.000 - $50.000
-                            </span>
-                        </div>
-                    </label>
-                </div>
-                <div class="form-group relative">
-                    <input type="radio" id="radio50k" class="peer size-6 absolute top-10 left-5" name="budget" />
-                    <label for="radio50k"
-                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
-                        <div
-                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
-                            <span class="collapse size-16" />
-                            <span class="font-medium text-gray-900">
-                                $50.000 +
-                            </span>
-                        </div>
-                    </label>
-                </div>
-            </fieldset>
-        </div>
+        <fieldset class="grid grid-cols-2 gap-x-7 gap-y-5">
+            <div class="form-group relative">
+                <input type="radio" id="radio5k" value="5k" checked={@form_data["budget"]=="5k" }
+                    class="peer size-6 absolute top-10 left-5" name="budget" />
+                <label for="radio5k"
+                    class="h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
+                    <div class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                        <span class="w-0 h-16" />
+                        <span class="font-medium text-gray-900">
+                            $5.000 - $10.000
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group relative">
+                <input type="radio" id="radio10k" value="10k" checked={@form_data["budget"]=="10k" }
+                    class="peer size-6 absolute top-10 left-5" name="budget" />
+                <label for="radio10k"
+                    class="h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
+                    <div class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                        <span class="w-0 h-16" />
+                        <span class="font-medium text-gray-900">
+                            $10.000 - $20.000
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group relative">
+                <input type="radio" id="radio20k" value="20k" checked={@form_data["budget"]=="20k" }
+                    class="peer size-6 absolute top-10 left-5" name="budget" />
+                <label for="radio20k"
+                    class="h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
+                    <div class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                        <span class="w-0 h-16" />
+                        <span class="font-medium text-gray-900">
+                            $20.000 - $50.000
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group relative">
+                <input type="radio" id="radio50k" value="50k" checked={@form_data["budget"]=="50k" }
+                    class="peer size-6 absolute top-10 left-5" name="budget" />
+                <label for="radio50k"
+                    class="h-full place-content-between cursor-pointer peer-[:checked]:*:ring-blue-500 peer-[:checked]:*:ring-2">
+                    <div class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                        <span class="w-0 h-16" />
+                        <span class="font-medium text-gray-900">
+                            $50.000 +
+                        </span>
+                    </div>
+                </label>
+            </div>
+        </fieldset>
     </div>
     <div class={@current_stage==4 && "flex flex-col items-center" || "hidden" }>
         <svg class="w-fit">
@@ -222,8 +244,15 @@
             Please review all the information you previously typed in the past steps, and if all is okay, submit your
             message to receive a project quote in 24 - 48 hours.
         </p>
-        <button id="submitForm" class="bg-blue-500 text-white font-bold rounded-full py-5 px-10">Submit</button>
+        <button id="submitForm" type="submit"
+            class="bg-blue-500 text-white font-bold rounded-full py-5 px-10">Submit</button>
     </div>
+    <p class="text-red-500 text-sm mt-2">
+        <%= @errors[:services] %>
+    </p>
+    <p class="text-red-500 text-sm mt-2">
+        <%= @errors[:budget] %>
+    </p>
 </form>
 <div class="flex justify-between">
     <button phx-click="prev-step" class={@current_stage> 1 && "block border-2 border-blue-500 text-blue-500 rounded-full

@@ -1,69 +1,136 @@
 defmodule FrontEndWeb.FormLive do
   use FrontEndWeb, :live_view
 
+  @initial_form_data %{
+    "name" => "",
+    "email" => "",
+    "phone" => "",
+    "company" => "",
+    "services-dev" => nil,
+    "services-web" => nil,
+    "services-marketing" => nil,
+    "services-other" => nil,
+    "budget" => nil
+  }
+
   def mount(_params, _session, socket) do
-    {:ok, socket |> assign(current_stage: 1)}
+    {:ok, socket |> assign(current_stage: 1, form_data: @initial_form_data, errors: %{})}
   end
 
-  def handle_event("next-step", _, %{assigns: %{current_stage: stage}} = socket) do
-    {:noreply, socket |> assign(current_stage: stage + 1)}
+  def handle_event("change", %{"_target" => ["name"], "name" => name} = form_data, socket) do
+    errors = validate_name(socket.assigns.errors, name)
+    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
-  def handle_event("prev-step", _, %{assigns: %{current_stage: stage}} = socket) do
-    {:noreply, socket |> assign(current_stage: stage - 1)}
+  def handle_event("change", %{"_target" => ["email"], "email" => email} = form_data, socket) do
+    errors = validate_email(socket.assigns.errors, email)
+    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
-  def form_container(assigns) do
-    ~H"""
-    <form class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]">
-      <.stage_progress />
-    </form>
-    """
+  def handle_event("change", %{"_target" => ["phone"], "phone" => phone} = form_data, socket) do
+    errors = validate_phone(socket.assigns.errors, phone)
+    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
-  def stage_progress(assigns) do
-    ~H"""
-      <div class="flex justify-between bg-white mb-16 border-b pb-4">
-        <%= for block <- intersperse_lists(1..4, stage_bar_indexes(4)) do %>
-          <%= case block do %>
-            <% {:sep, index} -> %>
-              <.stage_bar current_stage={1} stage={index} />
-            <% _ -> %>
-              <.stage_circle stage={block} />
-          <% end %>
-        <% end %>
-      </div>
-    """
+  def handle_event("change", %{"_target" => ["company"], "company" => company} = form_data, socket) do
+    errors = validate_company(socket.assigns.errors, company)
+    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
-  def stage_circle(assigns) do
-    ~H"""
-    <span class="shrink-0 size-8 rounded-full bg-left bg-gradient-to-l from-gray-200
-      to-blue-500 bg-[size:300%] text-white font-bold content-center text-center">
-      {@stage}
-    </span>
-    """
+  def handle_event("change", form_data, socket) do
+    IO.inspect(socket.assigns.errors)
+    {:noreply, assign(socket, form_data: form_data)}
   end
 
-  def stage_bar(assigns) do
-    ~H"""
-    <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
-        to-blue-500 bg-[size:300%]"<>(@current_stage > @stage && " animate-bg-shift" || "")}>
-    </span>
-    """
-  end
+  def handle_event("next-step", _, %{assigns: %{current_stage: stage, form_data: form}} = socket) do
+    case validate_current_stage(stage, form) do
+      :ok ->
+        {:noreply, assign(socket, current_stage: stage + 1, errors: %{})}
 
-  defp stage_bar_indexes(total) do
-    for i <- 2..total do
-      {:sep, i}
+      {:error, errors} ->
+        {:noreply, assign(socket, errors: errors)}
     end
   end
 
-  defp intersperse_lists(list1, list2) do
-    combined = Enum.zip(list1, list2)
-
-    combined
-    |> Enum.flat_map(fn {a, b} -> [a, b] end)
-    |> Enum.concat(Enum.drop(list1, length(list2)))
+  def handle_event("prev-step", _, %{assigns: %{current_stage: stage}} = socket) do
+    {:noreply, assign(socket, current_stage: max(stage - 1, 1))}
   end
+
+  def handle_event("submit", form_data, socket) do
+    {:noreply, socket |> put_flash(:info, "Thanks for submitting the form, here's the data: #{Jason.encode!([form_data])}")}
+  end
+
+  # Validation Functions
+  defp validate_name(errors, name) do
+    if String.split(name) |> Enum.count() < 2 do
+      Map.put(errors, :name, "Name must be at least two words.")
+    else
+      Map.delete(errors, :name)
+    end
+  end
+
+  defp validate_email(errors, email) do
+    if Regex.match?(~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/, email) do
+      Map.delete(errors, :email)
+    else
+      Map.put(errors, :email, "Invalid email format.")
+    end
+  end
+
+  defp validate_phone(errors, phone) do
+    if Regex.match?(~r/^\(\d{3}\) \d{3} - \d{4}$/, phone) do
+      Map.delete(errors, :phone)
+    else
+      Map.put(errors, :phone, "Invalid phone number format. Use (123) 456 - 7890.")
+    end
+  end
+
+  defp validate_company(errors, company) do
+    if String.trim(company) == "" do
+      Map.put(errors, :company, "Company name cannot be blank.")
+    else
+      Map.delete(errors, :company)
+    end
+  end
+
+  defp validate_checkboxes(form, errors) do
+    if Enum.any?(["services-dev", "services-web", "services-marketing", "services-other"], &(!is_nil(form[&1]))) do
+      Map.delete(errors, :services)
+    else
+      Map.put(errors, :services, "Please select at least one service.")
+    end
+  end
+
+  defp validate_budget(form, errors) do
+    if form["budget"] in ["5k", "10k", "20k", "50k"] do
+      Map.delete(errors, :budget)
+    else
+      Map.put(errors, :budget, "Please select a budget.")
+    end
+  end
+
+  defp validate_current_stage(1, form) do
+    errors =
+      %{}
+      |> validate_name(form["name"])
+      |> validate_email(form["email"])
+      |> validate_phone(form["phone"])
+      |> validate_company(form["company"])
+
+    if map_size(errors) == 0, do: :ok, else: {:error, errors}
+  end
+
+  defp validate_current_stage(2, form) do
+    errors = validate_checkboxes(form, %{})
+
+    if map_size(errors) == 0, do: :ok, else: {:error, errors}
+  end
+
+  defp validate_current_stage(3, form) do
+    errors = validate_budget(form, %{})
+
+    if map_size(errors) == 0, do: :ok, else: {:error, errors}
+  end
+
+  defp validate_current_stage(_, _), do: :ok
 end
