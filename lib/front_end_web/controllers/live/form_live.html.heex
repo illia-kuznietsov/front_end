@@ -1,4 +1,4 @@
-<div id="customForm" class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]">
+<form id="customForm" class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]">
     <div class="flex justify-between bg-white mb-16 border-b pb-4">
         <span class="shrink-0 size-8 rounded-full bg-left bg-gradient-to-l from-gray-200
             to-blue-500 bg-[size:300%] text-white font-bold content-center text-center">1</span>
@@ -224,11 +224,10 @@
         </p>
         <button id="submitForm" class="bg-blue-500 text-white font-bold rounded-full py-5 px-10">Submit</button>
     </div>
-</div>
+</form>
 <div class="flex justify-between">
     <button phx-click="prev-step" class={@current_stage> 1 && "block border-2 border-blue-500 text-blue-500 rounded-full
         py-5 px-10" || "collapse"}>Previous step</button>
     <button phx-click="next-step" class={@current_stage < 4
         && "block bg-blue-500 text-white font-bold rounded-full py-5 px-10" || "collapse" }>Next step</button>
 </div>
-<.form_container />
