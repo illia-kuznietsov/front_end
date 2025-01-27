@@ -7,12 +7,11 @@ import Config
 # before starting your production server.
 
 config :front_end, FrontEnd.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  url: {:system, "DATABASE_URL"},
-  database: "",
-  ssl: true,
-  pool_size: 2
-
+  ssl: [cacertfile: "/etc/ssl/certs/ca-certificates.crt"],
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 2,
+  queue_target: 5000,
+  queue_interval: 2000
 
 config :front_end, FrontEndWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 

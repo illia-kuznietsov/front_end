@@ -1,6 +1,5 @@
 defmodule FrontEndWeb.CalendarComponent do
   use Phoenix.LiveComponent
-  alias FrontEnd.Errands
 
   def update(assigns, socket) do
     {:ok,
