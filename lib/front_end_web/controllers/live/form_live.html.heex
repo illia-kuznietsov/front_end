@@ -1,0 +1,234 @@
+<div id="customForm" class="border shadow-xl pt-8 pl-11 pr-14 pb-20 mb-8 rounded-[34px]">
+    <div class="flex justify-between bg-white mb-16 border-b pb-4">
+        <span class="shrink-0 size-8 rounded-full bg-left bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%] text-white font-bold content-center text-center">1</span>
+        <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%]"<>(@current_stage > 1 && " animate-bg-shift" || "")}></span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
+        to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 1 && " animate-bg-shift text-gray-200 font-bold" || "")}>2</span>
+        <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%]"<>(@current_stage > 2 && " animate-bg-shift" || "")}></span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 2 && " animate-bg-shift text-gray-200 font-bold" || "")}>3</span>
+        <span class={"grow h-[6px] mx-[18px] self-center rounded-full bg-right bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%]"<>(@current_stage > 3 && " animate-bg-shift" || "")}></span>
+        <span class={"shrink-0 size-8 rounded-full bg-right bg-gradient-to-l from-gray-200
+            to-blue-500 bg-[size:300%] content-center text-center"<>(@current_stage > 3 && " animate-bg-shift text-gray-200 font-bold" || "")}>4</span>
+    </div>
+    <div class={@current_stage==1 && "block" || "hidden" }>
+        <h2 class="pb-2 text-2xl font-bold">
+            Contact details
+        </h2>
+        <p class="pb-10 text-gray-700">
+            Please enter your contact information below.
+        </p>
+        <div class="grid grid-cols-2 gap-x-7 gap-y-11">
+            <div class="form-group space-y-4">
+                <label for="name">Name</label>
+                <span
+                    class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
+                    <input class="w-full bg-transparent outline-none" placeholder="John Doe" />
+                    <svg class="size-6">
+                        <use href="/images/form_assets.svg#user-icon"></use>
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group space-y-4">
+                <label for="email">Email</label>
+                <span
+                    class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
+                    <input class="w-full bg-transparent outline-none" placeholder="Email address" />
+                    <svg class="size-6">
+                        <use href="/images/form_assets.svg#email-icon"></use>
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group space-y-4">
+                <label for="phone">Phone Number</label>
+                <span
+                    class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
+                    <input class="w-full bg-transparent outline-none" placeholder="(123) 456 - 7890" />
+                    <svg class="size-6">
+                        <use href="/images/form_assets.svg#phone-icon"></use>
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group space-y-4">
+                <label for="company">Company</label>
+                <span
+                    class="grid grid-cols-[1fr,auto] bg-white rounded-full border shadow-lg p-5 place-content-between">
+                    <input class="w-full bg-transparent outline-none" placeholder="Company name" />
+                    <svg class="size-6">
+                        <use href="/images/form_assets.svg#company-icon"></use>
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class={@current_stage==2 && "block" || "hidden" }>
+        <h2 class="pb-2 text-2xl font-bold">
+            Our services
+        </h2>
+        <p class="pb-10 text-gray-700">
+            Please select which service you are interested in.
+        </p>
+        <div class="grid grid-cols-2 gap-x-7 gap-y-5">
+            <div class="form-group">
+                <input type="checkbox" id="checkDev" class="peer hidden" />
+                <label for="checkDev"
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    <div
+                        class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
+                        <span
+                            class="size-16 bg-blue-500 bg-opacity-15 drop-shadow rounded-full flex items-center justify-center">
+                            <svg class="size-8 opacity-100">
+                                <use href="/images/form_assets.svg#dev-icon"></use>
+                            </svg>
+                        </span>
+                        <span class="font-medium text-gray-900">
+                            Development
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="checkWebDev" class="peer hidden" />
+                <label for="checkWebDev"
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    <div
+                        class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
+                        <span
+                            class="size-16 bg-blue-500 bg-opacity-15 drop-shadow rounded-full flex items-center justify-center">
+                            <svg class="size-8 opacity-100">
+                                <use href="/images/form_assets.svg#web-dev-icon"></use>
+                            </svg>
+                        </span>
+                        <span class="font-medium text-gray-900">
+                            Web Design
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="checkMarketing" class="peer hidden" />
+                <label for="checkMarketing"
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    <div
+                        class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
+                        <span
+                            class="size-16 bg-blue-500 bg-opacity-15 drop-shadow rounded-full flex items-center justify-center">
+                            <svg class="size-8 opacity-100">
+                                <use href="/images/form_assets.svg#speaker-icon"></use>
+                            </svg>
+                        </span>
+                        <span class="font-medium text-gray-900">
+                            Marketing
+                        </span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="checkOther" class="peer hidden" />
+                <label for="checkOther"
+                    class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                    <div
+                        class="flex space-x-3 items-center bg-white rounded-2xl border border-gray-300 p-5 transition cursor-pointer box-border peer-checked:border-2 peer-checked:border-blue-500">
+                        <span
+                            class="size-16 bg-blue-500 bg-opacity-15 drop-shadow rounded-full flex items-center justify-center">
+                            <svg class="size-8 opacity-100">
+                                <use href="/images/form_assets.svg#gear-icon"></use>
+                            </svg>
+                        </span>
+                        <span class="font-medium text-gray-900">
+                            Other
+                        </span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class={@current_stage==3 && "block" || "hidden" }>
+        <h2 class="pb-2 text-2xl font-bold">
+            What’s your project budget?
+        </h2>
+        <p class="pb-10 text-gray-700">
+            Please select the project budget range you have in mind.
+        </p>
+        <div class="grid grid-cols-2 gap-x-7 gap-y-5">
+            <fieldset class="grid grid-cols-subgrid col-span-2 gap-x-7 gap-y-5">
+                <div class="form-group relative">
+                    <input type="radio" id="radio5k" class="peer size-6 absolute top-10 left-5" name="budget" />
+                    <label for="radio5k"
+                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                        <div
+                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                            <span class="collapse size-16" />
+                            <span class="font-medium text-gray-900">
+                                $5.000 - $10.000
+                            </span>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group relative">
+                    <input type="radio" id="radio10k" class="peer size-6 absolute top-10 left-5" name="budget" />
+                    <label for="radio10k"
+                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                        <div
+                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                            <span class="collapse size-16" />
+                            <span class="font-medium text-gray-900">
+                                $10.000 - $20.000
+                            </span>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group relative">
+                    <input type="radio" id="radio20k" class="peer size-6 absolute top-10 left-5" name="budget" />
+                    <label for="radio20k"
+                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                        <div
+                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                            <span class="collapse size-16" />
+                            <span class="font-medium text-gray-900">
+                                $20.000 - $50.000
+                            </span>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group relative">
+                    <input type="radio" id="radio50k" class="peer size-6 absolute top-10 left-5" name="budget" />
+                    <label for="radio50k"
+                        class="grid grid-cols-[1fr] h-full place-content-between cursor-pointer peer-[:checked]:*:border-blue-500 peer-[:checked]:*:border-2">
+                        <div
+                            class="flex pl-14 items-center bg-white rounded-2xl border border-gray-300 p-5 transition">
+                            <span class="collapse size-16" />
+                            <span class="font-medium text-gray-900">
+                                $50.000 +
+                            </span>
+                        </div>
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class={@current_stage==4 && "flex flex-col items-center" || "hidden" }>
+        <svg class="w-fit">
+            <use href="/images/form_assets.svg#submit-image"></use>
+        </svg>
+        <h2 class="pt-4 pb-2 text-2xl font-bold">
+            Submit your quote request
+        </h2>
+        <p class="px-14  text-center align-top text-gray-700 mb-7">
+            Please review all the information you previously typed in the past steps, and if all is okay, submit your
+            message to receive a project quote in 24 - 48 hours.
+        </p>
+        <button id="submitForm" class="bg-blue-500 text-white font-bold rounded-full py-5 px-10">Submit</button>
+    </div>
+</div>
+<div class="flex justify-between">
+    <button phx-click="prev-step" class={@current_stage> 1 && "block border-2 border-blue-500 text-blue-500 rounded-full
+        py-5 px-10" || "collapse"}>Previous step</button>
+    <button phx-click="next-step" class={@current_stage < 4
+        && "block bg-blue-500 text-white font-bold rounded-full py-5 px-10" || "collapse" }>Next step</button>
+</div>
+<.form_container />
