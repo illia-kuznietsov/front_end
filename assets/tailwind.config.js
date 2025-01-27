@@ -39,7 +39,8 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         roboto: ["Roboto", "sans-serif"], 
-        rubik: ["Rubik", "sans-serif"]  
+        rubik: ["Rubik", "sans-serif"],
+        inter: ["Inter", "sans-serif"],  
       },
       fontSize: {
         xxxs: '5px',

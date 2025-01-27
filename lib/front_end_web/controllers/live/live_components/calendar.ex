@@ -11,60 +11,41 @@ defmodule FrontEndWeb.CalendarComponent do
        weeks: weeks_in_month(assigns.initial_date),
        current_month: parse_month(assigns.initial_date.month),
        selected: assigns.initial_date.day |> to_string,
-       errands: Errands.get_errands(assigns.initial_date)
+       errands: []
      )}
   end
 
   @months ~w"January February March April May June July August September October November December"
   def render(assigns) do
     ~H"""
-    <div class="dark:bg-coal rounded-lg shadow-lg p-18 text-2xl font-medium">
-      <div class="flex justify-between items-center mb-14 text-primary dark:text-white">
-        <div class="font-bold">
-          <span>{@current_month} {@initial_date.year}</span>
-        </div>
-        <div class="flex flex-row space-between-8">
-          <div class="size-8 justify-items-center rounded-full hover:bg-gray-300 dark:hover:bg-gray-500">
-            <Heroicons.icon
-              name="chevron-left"
-              type="outline"
-              class="size-5 m-auto mt-1"
-              phx-click="prev_month"
-              phx-target={@myself}
-            />
-          </div>
-          <div class="justify-items-center size-8 rounded-full hover:bg-gray-300 dark:hover:bg-gray-500">
-            <Heroicons.icon
-              name="chevron-right"
-              type="outline"
-              class="size-5 m-auto mt-1"
-              phx-click="next_month"
-              phx-target={@myself}
-            />
-          </div>
-        </div>
+    <div class="size-fit p-18 rounded-xl shadow-lg text-2xl font-inter dark:bg-coal">
+      <div class="flex justify-between mb-14 text-primary dark:text-white">
+        <.month_year month={@current_month} year={@initial_date.year} />
+        <.arrows myself={@myself} />
       </div>
-        <table class="select-none font-regular">
+      <.calendar_table weeks={@weeks} calendar={@calendar} selected={@selected} myself={@myself} />
+    </div>
+    """
+  end
+
+  def calendar_table(assigns) do
+    ~H"""
+    <div class="relative overflow-hidden p-0 -m-8">
+      <table class="select-none border-separate border-spacing-5">
+        <thead class="dark:text-white">
           <tr>
-            <th
-              :for={week_day <- ~w"Mo Tu We Th Fr Sa Su"}
-              class="size-14 text-center text-gray-600 dark:text-white"
-            >
+            <th :for={week_day <- ~w"Mo Tu We Th Fr Sa Su"} class="font-medium">
               {week_day}
             </th>
           </tr>
+        </thead>
+        <tbody>
           <tr :for={week <- 0..(@weeks - 1)}>
             <td
               :for={day <- @calendar |> Enum.at(week)}
-              class={"size-14 text-center align-middle " <>
-          (if day == @selected, do: day_class(day, :selected), else: day_class(day, "none"))}
-              phx-click="select"
-              phx-target={@myself}
-              phx-value-day={day}
+              class="text-center rounded-full"
             >
-              <div class="size-7 m-auto mb-1">
-                {day}
-              </div>
+              <.day_cell day={day} myself={@myself} />
             </td>
           </tr>
           <tr :if={@weeks < 6} class="h-10">
@@ -73,17 +54,52 @@ defmodule FrontEndWeb.CalendarComponent do
           <tr :if={@weeks < 5} class="h-10">
             <td colspan="7"></td>
           </tr>
-        </table>
-      <div :if={@errands != []} div class="mt-4 dark:text-white border-t-2">
-        <ul class="pt-4 space-y-2">
-          <li :for={errand <- @errands} class="flex flex-col">
-            <span class="text-sm text-slate-500">
-              {Calendar.strftime(errand.to_do_at, "%I:%M %p")}
-            </span>
-            <span>{errand.description}</span>
-          </li>
-        </ul>
-      </div>
+        </tbody>
+      </table>
+    </div>
+    """
+  end
+
+  def month_year(assigns) do
+    ~H"""
+    <span class="font-bold">
+      {@month} {@year}
+    </span>
+    """
+  end
+
+  def arrows(assigns) do
+    ~H"""
+    <span class="flex space-x-6">
+      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected-dark/50">
+        <Heroicons.icon
+          name="chevron-left"
+          type="outline"
+          class="size-5 mr-[2px]"
+          phx-click="prev_month"
+          phx-target={@myself}
+        />
+      </span>
+      <span class="flex size-6 justify-center items-center rounded-full hover:shadow-lg hover:shadow-selected-dark/50">
+        <Heroicons.icon
+          name="chevron-right"
+          type="outline"
+          class="size-5 ml-[2px]"
+          phx-click="next_month"
+          phx-target={@myself}
+        />
+      </span>
+    </span>
+    """
+  end
+
+  def day_cell(assigns) do
+    ~H"""
+    <div :if={@day != ""} id={"day-cell-#{@day}"} phx-click="select" phx-hook="DaySelection" phx-target={@myself} phx-value-day={@day} class={
+      "flex text-2xl size-14 justify-center items-center text-secondary dark:text-secondary-dark rounded-full " <>
+        if @day != "", do: "hover:shadow-lg hover:shadow-selected/50 dark:hover:shadow-selected-dark/50", else: ""
+    }>
+      {@day}
     </div>
     """
   end
@@ -123,15 +139,20 @@ defmodule FrontEndWeb.CalendarComponent do
   end
 
   def handle_event("select", %{"day" => day}, socket) do
-    new_date = %Date{socket.assigns.initial_date | day: String.to_integer(day)}
+    old_date = socket.assigns.initial_date
+    new_date = %Date{old_date | day: String.to_integer(day)}
 
     {:noreply,
      socket
      |> assign(
        selected: day,
        initial_date: new_date,
-       errands: Errands.get_errands(new_date)
-     )}
+       errands: []
+     )
+     |> push_event("update_selection", %{
+      current_id: "day-cell-#{old_date.day}",
+      new_id: "day-cell-#{day}"
+    })}
   end
 
   defp make_calendar(date) do
@@ -163,10 +184,4 @@ defmodule FrontEndWeb.CalendarComponent do
     next_month = date |> Date.add(Date.days_in_month(date) - date.day + 1)
     Date.beginning_of_month(next_month)
   end
-
-  defp day_class("", _), do: ""
-  defp day_class(_day, :selected), do: "bg-selected dark:bg-selected-dark text-white rounded-full"
-  defp day_class(_day, _), do: "rounded-full text-secondary dark:text-secondary-dark hover:bg-gray-300 dark:hover:bg-gray-600"
-
-
 end

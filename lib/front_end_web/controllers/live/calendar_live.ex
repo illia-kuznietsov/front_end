@@ -3,7 +3,7 @@ defmodule FrontEndWeb.CalendarLive do
   alias FrontEndWeb.CalendarComponent, as: Calendar
   def render(assigns) do
     ~H"""
-    <.live_component id="" module={Calendar} initial_date={Date.utc_today()}/>
+    <.live_component id="calendar-example" module={Calendar} initial_date={Date.utc_today()} />
     """
   end
 end
