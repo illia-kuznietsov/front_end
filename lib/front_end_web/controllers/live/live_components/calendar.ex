@@ -1,6 +1,5 @@
 defmodule FrontEndWeb.CalendarComponent do
   use Phoenix.LiveComponent
-  alias FrontEnd.Errands
 
   def update(assigns, socket) do
     {:ok,
@@ -114,7 +113,7 @@ defmodule FrontEndWeb.CalendarComponent do
        calendar: make_calendar(new_date),
        weeks: weeks_in_month(new_date),
        current_month: parse_month(new_date.month),
-       errands: Errands.get_errands(new_date),
+       errands: [],
        selected: "1"
      )}
   end
@@ -129,7 +128,7 @@ defmodule FrontEndWeb.CalendarComponent do
        calendar: make_calendar(new_date),
        weeks: weeks_in_month(new_date),
        current_month: parse_month(new_date.month),
-       errands: Errands.get_errands(new_date),
+       errands: [],
        selected: "1"
      )}
   end
