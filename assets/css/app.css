@@ -10,3 +10,12 @@
     min-width: 0.5rem;
     min-height: 0.5rem;
   }
+
+@layer utilities {
+  .selected {
+    @apply bg-selected dark:bg-selected-dark text-white dark:text-secondary-dark;
+  }
+  .selected-0 {
+    @apply bg-transparent ;
+  }
+}

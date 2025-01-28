@@ -6,7 +6,7 @@ const fs = require("fs")
 const path = require("path")
 
 module.exports = {
-  darkMode: 'selector',
+  darkMode: 'class',
   variants: {
     extend: {
       maskImage: ['hover', 'focus'],
@@ -15,7 +15,9 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/front_end_web.ex",
-    "../lib/front_end_web/**/*.*ex"
+    "../lib/front_end_web/**/*.{heex,ex,exs}",
+    "./js/**/*.js",
+    "./css/*.css"
   ],
   safelist: [
     {
@@ -23,6 +25,9 @@ module.exports = {
     },
     {
       pattern: /text-(orange|blue|pink)-800/,
+    },
+    {
+      pattern: /bg-(selected|selected-dark)/
     }
   ],
   theme: {
@@ -49,6 +54,10 @@ module.exports = {
         myxl: ['42px','28px']
       },
       colors: {
+        selected: {
+          DEFAULT: "#FB3F4A",
+          dark: "#589C5F"
+        },
         'gray': {
           50: "#EFEFEF",
           100: "#FAFAFA",
@@ -82,8 +91,6 @@ module.exports = {
         'primary': "#333333",
         'secondary': "#666666",
         'secondary-dark':"#CCCCCC",
-        'selected': "#FB3F4A",
-        'selected-dark':"#589C5F",
         'percent-fill': "#FFEFE7"
       },
       spacing: {
