@@ -1,29 +1,33 @@
 <div class="flex">
   <aside class="sticky lg:h-screen pt-5 hidden md:visible md:block bg-gray-100">
-    <header class="text-center mb-10 lg:mx-[67px] mx-3 font-poppins font-semibold lg:text-4xl">WeHR</header>
-    <nav
-      class="w-fit [&>div]:px-[30px] [&>div]:flex [&>div]:space-x-6 [&>div]:size-fit [&>div]:py-2.5 md:[&_*]:not(span):visible [&_*_span]:hidden lg:[&_*_span]:visible lg:[&_*_span]:block">
-      <p
-        class="text-center lg:text-start lg:ml-[30px] my-2.5 overflow-shrink font-roboto font-medium lg:text-xs text-xxss text-gray-500">
-        MAIN MENU</p>
+    <header class="text-center mb-10 lg:mx-[67px] mx-3 font-poppins font-semibold lg:text-4xl">
+      WeHR
+    </header>
+    <nav class="w-fit [&>div]:px-[30px] [&>div]:flex [&>div]:space-x-6 [&>div]:size-fit [&>div]:py-2.5 md:[&_*]:not(span):visible [&_*_span]:hidden lg:[&_*_span]:visible lg:[&_*_span]:block">
+      <p class="text-center lg:text-start lg:ml-[30px] my-2.5 overflow-shrink font-roboto font-medium lg:text-xs text-xxss text-gray-500">
+        MAIN MENU
+      </p>
       <div>
-        <.iconify icon="bxs:dashboard" class="size-5 text-orange-800" /> <span class="text-orange-800">Dashboard</span>
+        <.iconify icon="bxs:dashboard" class="size-5 text-orange-800" />
+        <span class="text-orange-800">Dashboard</span>
       </div>
       <div>
-        <.iconify icon="flowbite:user-add-solid" class="size-5 text-gray-300" /> <span>Recruitment</span>
+        <.iconify icon="flowbite:user-add-solid" class="size-5 text-gray-300" />
+        <span>Recruitment</span>
       </div>
       <div>
         <.iconify icon="bxs:calendar-event" class="size-5 text-gray-300" /> <span>Schedule</span>
       </div>
       <div>
-        <.iconify icon="flowbite:users-group-solid" class="size-5 text-gray-300" /> <span>Employees</span>
+        <.iconify icon="flowbite:users-group-solid" class="size-5 text-gray-300" />
+        <span>Employees</span>
       </div>
       <div>
         <.department_icon /><span>Department</span>
       </div>
-      <p
-        class="lg:text-start lg:ml-[30px] text-center mt-10 my-2.5 font-roboto font-medium lg:text-xs text-xxss text-gray-500">
-        OTHER</p>
+      <p class="lg:text-start lg:ml-[30px] text-center mt-10 my-2.5 font-roboto font-medium lg:text-xs text-xxss text-gray-500">
+        OTHER
+      </p>
       <div>
         <.iconify icon="bx:support" class="size-5 text-gray-300" /> <span>Support</span>
       </div>
@@ -46,8 +50,11 @@
           <div class="flex items-center space-x-8">
             <.bell_icon class="size-5" />
             <.iconify icon="eva:message-square-fill" class="size-5 text-gray-300" />
-            <div class="size-9 lg:size-10 rounded-full bg-center bg-cover"
-              style="background-image: url('images/profile_pic.png');"></div>
+            <div
+              class="size-9 lg:size-10 rounded-full bg-center bg-cover"
+              style="background-image: url('images/profile_pic.png');"
+            >
+            </div>
           </div>
           <span class="font-poppins font-medium hidden lg:visible lg:block">Admirra John</span>
           <.iconify icon="solar:alt-arrow-down-line-duotone" class="size-5 text-[#737898]" />
@@ -64,11 +71,18 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             <.graph_bubble :for={card <- @graph_cards} card={card} />
           </div>
-          <.list_bubble title="Announcements" time="Today, 13 Sep 2021" bottom_text="See All Announcemens">
+          <.list_bubble
+            title="Announcements"
+            time="Today, 13 Sep 2021"
+            bottom_text="See All Announcemens"
+          >
             <.gray_bubble :for={card <- @announcement_cards} card={card}>
               <div class="flex space-x-2.5">
-                <.iconify icon="fluent-mdl2:pinned-solid" class={"size-5 text-gray-#{if card.pinned, do: 500, else:
-                  300}"} />
+                <.iconify
+                  icon="fluent-mdl2:pinned-solid"
+                  class={"size-5 text-gray-#{if card.pinned, do: 500, else:
+                  300}"}
+                />
                 <.iconify icon="tabler:dots" class="size-5 text-gray-300" />
               </div>
             </.gray_bubble>
@@ -82,19 +96,26 @@
             <div class="flex-cols justify-items-start bg-jean-500 text-white pl-5 pb-[31px] pr-[42px]">
               <p class="font-roboto text-xxs opacity-60 pt-3">10.40 AM, Fri 10 Sept 2021</p>
               <p class="text-sm py-[7px]">You Posted a New Job</p>
-              <p class="text-sm opacity-80 mb-7">Kindly check the requirements and terms of work and make sure
+              <p class="text-sm opacity-80 mb-7">
+                Kindly check the requirements and terms of work and make sure
                 everything
                 is
-                right.</p>
+                right.
+              </p>
               <div class="flex flex-col lg:flex-row justify-between">
                 <p class="text-sm font-roboto mb-7">Today you made 12 Activities</p>
-                <button class="size-fit bg-orange-800 rounded-md font-poppins font-medium text-sm py-2.5 px-4">See All
+                <button class="size-fit bg-orange-800 rounded-md font-poppins font-medium text-sm py-2.5 px-4">
+                  See All
                   Activities
                 </button>
               </div>
             </div>
           </div>
-          <.list_bubble title="Upcoming Schedule" time="Today, 13 Sep 2021" bottom_text="Create a New Schedule">
+          <.list_bubble
+            title="Upcoming Schedule"
+            time="Today, 13 Sep 2021"
+            bottom_text="Create a New Schedule"
+          >
             <div class="space-y-2">
               <p class="text-gray-500 text-xs font-poppins">Priority</p>
               <.gray_bubble :for={card <- @schedule_cards.priority} card={card}>

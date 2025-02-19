@@ -19,26 +19,37 @@ defmodule FrontEndWeb.FormLive do
 
   def handle_event("change", %{"_target" => ["name"], "name" => name} = form_data, socket) do
     errors = validate_name(socket.assigns.errors, name)
-    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
+
+    {:noreply,
+     assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
   def handle_event("change", %{"_target" => ["email"], "email" => email} = form_data, socket) do
     errors = validate_email(socket.assigns.errors, email)
-    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
+
+    {:noreply,
+     assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
   def handle_event("change", %{"_target" => ["phone"], "phone" => phone} = form_data, socket) do
     errors = validate_phone(socket.assigns.errors, phone)
-    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
+
+    {:noreply,
+     assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
-  def handle_event("change", %{"_target" => ["company"], "company" => company} = form_data, socket) do
+  def handle_event(
+        "change",
+        %{"_target" => ["company"], "company" => company} = form_data,
+        socket
+      ) do
     errors = validate_company(socket.assigns.errors, company)
-    {:noreply, assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
+
+    {:noreply,
+     assign(socket, form_data: Map.merge(socket.assigns.form_data, form_data), errors: errors)}
   end
 
   def handle_event("change", form_data, socket) do
-    IO.inspect(socket.assigns.errors)
     {:noreply, assign(socket, form_data: form_data)}
   end
 
@@ -57,7 +68,12 @@ defmodule FrontEndWeb.FormLive do
   end
 
   def handle_event("submit", form_data, socket) do
-    {:noreply, socket |> put_flash(:info, "Thanks for submitting the form, here's the data: #{Jason.encode!([form_data])}")}
+    {:noreply,
+     socket
+     |> put_flash(
+       :info,
+       "Thanks for submitting the form, here's the data: #{Jason.encode!([form_data])}"
+     )}
   end
 
   # Validation Functions
@@ -94,7 +110,10 @@ defmodule FrontEndWeb.FormLive do
   end
 
   defp validate_checkboxes(form, errors) do
-    if Enum.any?(["services-dev", "services-web", "services-marketing", "services-other"], &(!is_nil(form[&1]))) do
+    if Enum.any?(
+         ["services-dev", "services-web", "services-marketing", "services-other"],
+         &(!is_nil(form[&1]))
+       ) do
       Map.delete(errors, :services)
     else
       Map.put(errors, :services, "Please select at least one service.")

@@ -86,6 +86,9 @@ config :swoosh, :api_client, false
 
 config :iconify_ex, :env, config_env()
 
-config :iconify_ex, :fallback_icon, "heroicons-solid:question-mark-circle" # Default icon for missing ones
-config :iconify_ex, :generated_icon_static_path, "./priv/static/images/icons" # Directory for generated CSS and assets
-config :iconify_ex, :generated_icon_static_url, "/images/icons/" # URL for serving generated assets
+# Default icon for missing ones
+config :iconify_ex, :fallback_icon, "heroicons-solid:question-mark-circle"
+# Directory for generated CSS and assets
+config :iconify_ex, :generated_icon_static_path, "./priv/static/images/icons"
+# URL for serving generated assets
+config :iconify_ex, :generated_icon_static_url, "/images/icons/"

@@ -1,4 +1,7 @@
 defmodule FrontEndWeb.CalendarComponent do
+  @moduledoc """
+  Calendar LiveComponent. Can support Errands if needed be. Has light and dark theme.
+  """
   use Phoenix.LiveComponent
 
   def update(assigns, socket) do
@@ -40,10 +43,7 @@ defmodule FrontEndWeb.CalendarComponent do
         </thead>
         <tbody>
           <tr :for={week <- 0..(@weeks - 1)}>
-            <td
-              :for={day <- @calendar |> Enum.at(week)}
-              class="text-center rounded-full"
-            >
+            <td :for={day <- @calendar |> Enum.at(week)} class="text-center rounded-full">
               <.day_cell day={day} myself={@myself} />
             </td>
           </tr>
@@ -94,10 +94,18 @@ defmodule FrontEndWeb.CalendarComponent do
 
   def day_cell(assigns) do
     ~H"""
-    <div :if={@day != ""} id={"day-cell-#{@day}"} phx-click="select" phx-hook="DaySelection" phx-target={@myself} phx-value-day={@day} class={
+    <div
+      :if={@day != ""}
+      id={"day-cell-#{@day}"}
+      phx-click="select"
+      phx-hook="DaySelection"
+      phx-target={@myself}
+      phx-value-day={@day}
+      class={
       "flex text-2xl size-14 justify-center items-center text-secondary dark:text-secondary-dark rounded-full " <>
         if @day != "", do: "hover:shadow-lg hover:shadow-selected/50 dark:hover:shadow-selected-dark/50", else: ""
-    }>
+    }
+    >
       {@day}
     </div>
     """
@@ -149,9 +157,9 @@ defmodule FrontEndWeb.CalendarComponent do
        errands: []
      )
      |> push_event("update_selection", %{
-      current_id: "day-cell-#{old_date.day}",
-      new_id: "day-cell-#{day}"
-    })}
+       current_id: "day-cell-#{old_date.day}",
+       new_id: "day-cell-#{day}"
+     })}
   end
 
   defp make_calendar(date) do

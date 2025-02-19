@@ -54,7 +54,7 @@ defmodule FrontEndWeb do
     quote do
       use Phoenix.LiveView,
         layout: {FrontEndWeb.Layouts, :app}
-      
+
       unquote(html_helpers())
     end
   end

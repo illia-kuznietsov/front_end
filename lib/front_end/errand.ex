@@ -1,4 +1,7 @@
 defmodule FrontEnd.Errand do
+  @moduledoc """
+  Schema and Changeset for Errand. Nothing more, nothing less.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
